@@ -1,0 +1,17 @@
+* {
+    color: #FFF;
+}
+
+header {
+    height: 100vh;
+    width: 100wh;
+    background: #244b5c;
+}
+
+header > .nav {
+    height: 80px;
+}
+
+header > .tagline {
+}
+
