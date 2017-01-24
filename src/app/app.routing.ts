@@ -10,6 +10,10 @@ export const routes: Routes = [
         path: '',
         loadChildren: 'app/home/home.module#HomeModule',
     },
+    {
+        path: 'links',
+        loadChildren: 'app/links/links.module#LinksModule',
+    },
 ];
 
 @NgModule({
