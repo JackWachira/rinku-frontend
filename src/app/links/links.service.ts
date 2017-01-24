@@ -1,31 +1,32 @@
-import { Injectable }    from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 
-import { Token } from './token'
+import { Token } from './token';
 
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs/Observable';
 
 // import 'rxjs/add/operator/toPromise';
-
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 @Injectable()
 export class LinksService {
-  constructor (
+  constructor(
     private http: Http
-  ) {}
+  ) { }
 
   links = Array;
 
   private extractData(res: Response) {
     console.log(res);
-    
+
     let body = res.json();
-    return body.data || { };
+    return body.data || {};
   }
 
-  private handleError (error: Response | any) {
+  private handleError(error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure
     console.log(error);
-    
+
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -37,11 +38,17 @@ export class LinksService {
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
-  
-  getAccessToken(temp_code): Observable<Token> {
-    const url = `http://localhost:3000/oauth`;
+
+  getAccessToken(requestObject): Observable<Token> {
+    let params = new URLSearchParams();
+    params.set('client_id', requestObject['client_id']);
+    params.set('client_secret', requestObject['client_secret']);
+    params.set('code', requestObject['code']);
+    params.set('redirect_uri', 'http://localhost:4200/links');
+
+    const url = 'https://slack.com/api/oauth.access';
     return this.http
-      .get(url, temp_code)
+      .get(url, { search: params })
       .map(this.extractData)
       .catch(this.handleError);
   }

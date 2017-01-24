@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { LinksService } from './links.service';
-
+import localForage from 'localforage';
 
 @Component({
   selector: 'app-links',
@@ -19,9 +19,7 @@ export class LinksComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(val => {
-      console.log(val['code']);
-      
-      this.requestObject =  {
+      this.requestObject = {
         client_id: '126735187141.129500575763',
         client_secret: '4c0774074e25b401c9cfa98faa735b84',
         code: val['code'],
@@ -29,9 +27,17 @@ export class LinksComponent implements OnInit {
     });
 
     this.linksService.getAccessToken(this.requestObject).subscribe(
-      token => console.log(token),
+      token => {
+        localForage.setItem('rinku', token).then(function () {
+          return localForage.getItem('access_token');
+        }).then(function (value) {
+          // we got our value
+        }).catch(function (err) {
+          console.log(err);
+        });
+      },
       error => console.log(error)
-    )
+    );
   }
 
 }
