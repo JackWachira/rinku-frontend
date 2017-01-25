@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { LinksService } from './links.service';
-import localForage from 'localforage';
+
+import { Link } from './link';
 
 @Component({
   selector: 'app-links',
@@ -11,6 +12,7 @@ import localForage from 'localforage';
 })
 export class LinksComponent implements OnInit {
   requestObject: any;
+  links: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,16 +30,18 @@ export class LinksComponent implements OnInit {
 
     this.linksService.getAccessToken(this.requestObject).subscribe(
       token => {
-        localForage.setItem('rinku', token).then(function () {
-          return localForage.getItem('access_token');
-        }).then(function (value) {
-          // we got our value
-        }).catch(function (err) {
-          console.log(err);
-        });
+        localStorage.setItem('rinku', JSON.stringify(token))
       },
       error => console.log(error)
     );
+
+    this.linksService.getLinks(JSON.parse(localStorage.getItem('rinku')).team_id).subscribe(
+      links => {
+        this.links = links;
+        console.log(`LINKS: ${this.links}`);
+      },
+      error => console.log(error)
+    )
   }
 
 }

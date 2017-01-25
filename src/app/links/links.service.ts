@@ -2,31 +2,25 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 
 import { Token } from './token';
+import { Link } from './link';
 
 import { Observable } from 'rxjs/Observable';
 
-// import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+
 @Injectable()
 export class LinksService {
   constructor(
     private http: Http
   ) { }
 
-  links = Array;
-
   private extractData(res: Response) {
-    console.log(res);
-
     let body = res.json();
-    return body.data || {};
+    return body || {};
   }
 
   private handleError(error: Response | any) {
-    // In a real world app, we might use a remote logging infrastructure
-    console.log(error);
-
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -51,6 +45,14 @@ export class LinksService {
       .get(url, { search: params })
       .map(this.extractData)
       .catch(this.handleError);
+  }
+
+  getLinks(teamId): Observable<Link> {
+    console.log(`TEAM ID: ${teamId}`);
+    return this.http
+      .get('http://127.0.0.1:3000/links?teamId=' + teamId)
+      .map(this.extractData)
+      .catch(this.handleError)
   }
 
 }
