@@ -1,3 +1,12 @@
-<p>
-  links works!
-</p>
+<md-card>Welcome to your team's dashboard</md-card>
+
+<md-grid-list cols="4">
+  <md-grid-tile *ngFor="let link of links">
+    <md-card>
+      <md-card-title>Link	</md-card-title>
+      <md-card-content>
+        {{ link.text }}
+      </md-card-content>
+    </md-card>
+  </md-grid-tile>
+</md-grid-list>

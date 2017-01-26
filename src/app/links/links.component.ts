@@ -38,7 +38,6 @@ export class LinksComponent implements OnInit {
     this.linksService.getLinks(JSON.parse(localStorage.getItem('rinku')).team_id).subscribe(
       links => {
         this.links = links;
-        console.log(`LINKS: ${this.links}`);
       },
       error => console.log(error)
     )
