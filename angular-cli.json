@@ -18,8 +18,7 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "styles/base.scss"
       ],
       "scripts": [],
       "environments": {

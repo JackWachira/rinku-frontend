@@ -1,30 +1,58 @@
-<header>
-  <div class="row nav">
-    <div class="col-md-9">
-      <a class="pull-left" href="#">
-        <img src="../assets/logo.png"/>
-      </a>
+<!-- "https://slack.com/oauth/authorize?scope=identity.basic,identity.email,identity.team,identity.avatar&client_id=126735187141.129500575763" {Sign in} -->
+<!-- "https://slack.com/oauth/authorize?scope=incoming-webhook,commands,bot&client_id=126735187141.129500575763"  {Add to Slack} -->
+
+
+<header class="container-fluid">
+  <div class="container">
+    <div class="row navigation justify-content-between">
+      <div class="col-12 col-sm-6 logo">
+        <img src="assets/rinku2.svg" alt="Rinku logo"/>
+      </div>
+      <div class="col-12 col-sm-6 signin-logo">
+        <a class="btn btn-outline-secondary">
+          <span class="slack-logo align-middle"></span> <span class="slack-txt">Sign in with Slack</span>
+        </a>
+      </div>
     </div>
-    <div class="col-md-3">
-      <a class="pull-right" href="https://slack.com/oauth/authorize?scope=identity.basic,identity.email,identity.team,identity.avatar&client_id=126735187141.129500575763">
-        <img alt="Sign in with Slack" height="40" width="172" src="https://platform.slack-edge.com/img/sign_in_with_slack.png" srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" />
-      </a>
+    <div class="row">
+      <div class="col-12 tagline hidden-xs-down">
+        <span></span> your links.
+      </div>
+      <div class="col-12 add_slack">
+        <a class="btn btn-outline-secondary">
+          <span class="slack-logo align-middle"></span> <span class="slack-txt">Add to Slack</span>
+        </a>
+      </div>
     </div>
   </div>
-  <div class="row tagline">
-    <div class="col-sm-12">
-      <a class="add btn" href="https://slack.com/oauth/authorize?scope=incoming-webhook,commands,bot&client_id=126735187141.129500575763">
-        <!--<img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" />-->
-        <span class="centre"><img src="../assets/slack-icon.png" height="30" width="30"> Add to Slack</span>
-      </a>
-    </div>
+  <div class="mascot">
   </div>
 </header>
+<div class="container body justify-content-center">
+  <h1>How it works</h1>
 
-<section>
-  Content
-</section>
-
-<footer>
-  FOOTER
+  <ul class="works">
+    <li>
+      <span class="no">1</span>
+      <span class="img"></span>
+      <span class="works-txt">Add <strong>Rinku</strong> to your slack organisation.</span>
+    </li>
+    <li>
+      <span class="no">2</span>
+      <span class="img"></span>
+      <span class="works-txt">Pick channels <strong>Rinku</strong> will collect links from.</span>
+    </li>
+    <li>
+      <span class="no">3</span>
+      <span class="img"></span>
+      <span class="works-txt"><strong>Rinku</strong> will now collect and categorise your links.</span>
+    </li>
+    <li>
+      <span class="no">4</span>
+      <span class="img"></span>
+      <span class="works-txt">Signin into the web client to access all your teams links.</span>
+    </li>
+  </ul>
+</div>
+<footer class="container">
 </footer>
