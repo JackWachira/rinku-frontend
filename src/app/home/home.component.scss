@@ -1,0 +1,33 @@
+$primary: #244b5c;
+
+* {
+    color: #FFF;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+header {
+    height: 100vh;
+    width: 100wh;
+    background: $primary;
+}
+
+header > .nav {
+    height: 80px;
+    margin: 10 10 10 10;
+}
+
+// header > .tagline {
+// }
+
+.add {
+    height: 54px;
+    width: 168px;
+    border: 1px solid white;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.centre {
+    margin: 0;
+}

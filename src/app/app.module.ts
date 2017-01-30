@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
+
+// Routing Module
+import { AppRoutingModule } from './app.routing';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -11,6 +15,7 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     FormsModule,
     HttpModule,
