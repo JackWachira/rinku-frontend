@@ -30,17 +30,17 @@ export class LinksComponent implements OnInit {
 
     this.linksService.getAccessToken(this.requestObject).subscribe(
       token => {
-        localStorage.setItem('rinku', JSON.stringify(token))
+        localStorage.setItem('rinku', JSON.stringify(token));
+
+        this.linksService.getLinks(token.team_id).subscribe(
+          links => {
+            this.links = links;
+          },
+          error => console.log(error)
+        )
       },
       error => console.log(error)
     );
-
-    this.linksService.getLinks(JSON.parse(localStorage.getItem('rinku')).team_id).subscribe(
-      links => {
-        this.links = links;
-      },
-      error => console.log(error)
-    )
   }
 
 }
