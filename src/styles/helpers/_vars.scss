@@ -1,0 +1,68 @@
+/* Brand colors
+ * -------------------- */
+
+$color--main:           #db4452;
+$color--secondary:      #247BA0;
+$color--secondary-dark: #244B5C;
+
+/* Base colors
+ * -------------------- */
+
+$color--white: #FFFFFF;
+$color--black: #362D2C;
+
+/**
+ * Font sizes and spacing/widths
+ * -----------------------------------------------------------------------------
+ */
+
+/* Font familys
+ * -------------------- */
+
+$font-family--primary: 'Source Sans Pro', sans-serif;
+
+/* Font sizes
+ * -------------------- */
+
+$font-size-base: 1rem; // Assumes the browser default, typically `16px`
+$font-size-lg:   1.25rem;
+$font-size-sm:   .875rem;
+$font-size-xs:   .75rem;
+
+/* Transitions
+ * -------------------- */
+
+$transition-time--base: .5s;
+
+/** screen sizes
+ * -------------------- */
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+/* Bootstrap Overrides
+ * --------------------- */
+
+$white:  $color--white;
+$black:  $color--black;
+$red:    $color--main;
+$blue:   $color--secondary;
+
+$brand-primary-secondary:   $red;
+$brand-primary:             $blue;
+
+$enable-rounded:            false;
+
+$enable-hover-media-query:  true;
+
+$body-bg:       $white;
+$body-color:    $color--black;
+$inverse-bg:    $color--secondary-dark;
+
+$link-color:            $brand-primary;
+
+$font-family-sans-serif: -apple-system, system-ui, BlinkMacSystemFont, "Open Sans", sans-serif;

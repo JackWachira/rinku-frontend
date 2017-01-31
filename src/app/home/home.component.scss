@@ -1,33 +1,264 @@
-$primary: #244b5c;
-
-* {
-    color: #FFF;
-    font-family: 'Source Sans Pro', sans-serif;
-}
+@import '../../styles/helpers/vars';
+@import 'node_modules/bootstrap/scss/mixins/breakpoints';
 
 header {
-    height: 100vh;
-    width: 100wh;
-    background: $primary;
-}
+  background: $inverse-bg;
+  color: $white;
+  height: 300px;
+  padding-top: 40px;
 
-header > .nav {
-    height: 80px;
-    margin: 10 10 10 10;
-}
-
-// header > .tagline {
-// }
-
-.add {
-    height: 54px;
-    width: 168px;
-    border: 1px solid white;
-    color: white;
+  .navigation {
+    height: 150px;
     text-align: center;
-    position: relative;
+
+    .logo {
+      img {
+        min-width: 100px;
+        max-width: 200px;
+        width: 80%;
+      }
+    }
+
+    .signin-logo {
+      float: left;
+      padding-top: 10px;
+      a {
+        width: 100%;
+      }
+    }
+  }
+
+  a.btn {
+    font-size: $font-size-sm;
+    span.slack-logo {
+      display: inline-block;
+      background-image: url(../../assets/slack_white.svg);
+      background-size: 25px 25px;
+      margin-right: 10px;
+      width: 25px;
+      height: 25px;
+    }
+
+    span.slack-txt {
+      display: inline-block;
+    }
+
+    &:hover {
+      color: $inverse-bg;
+
+      span.slack-logo {
+        background-image: url(../../assets/slack_logo.svg);
+      }
+    }
+  }
+
+  .tagline, .add_slack {
+    text-align: center;
+  }
+
+  .tagline {
+    font-size: $font-size-base;
+    margin: 20px auto;
+
+    span {
+      &:before {
+        position: relative;
+        animation: typing .75s step-end infinite, blink-caret .75s step-end infinite;
+        border-right: .15em solid $white;
+      }
+    }
+  }
+
+  .add_slack {
+    height: 50px;
+    margin-top: 20px;
+    a {
+      width: 100%;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    height: 70vh;
+
+    .navigation {
+      height: 25vh;
+
+      .signin-logo {
+        a {
+          float: right;
+          width: 190px;
+        }
+      }
+    }
+
+    .add_slack {
+      height: auto;
+      margin-top: 0px;
+
+      a {
+        font-size: $font-size-lg;
+        width: 200px;
+      }
+    }
+
+    .tagline {
+      font-size: $font-size-lg + 2rem;
+    }
+  }
 }
 
-.centre {
+.body {
+  padding: 20px;
+
+  h1 {
+    font-size: $font-size-lg;
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+    padding: 20px 0 0;
     margin: 0;
+
+    li {
+      padding: 10px 0;
+      text-align: center;
+
+      .no {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        background: $red;
+        color: $white;
+        z-index: 99;
+        border-radius: 50%;
+        font-weight: 900;
+      }
+
+      .img {
+        background-repeat: no-repeat;
+        border-radius: 50%;
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        vertical-align: middle;
+      }
+
+      .works-txt {
+        display: block;
+        font-weight: 200;
+        width: 100%;
+
+        strong {
+          color: $red;
+          font-weight: 900;
+        }
+      }
+
+      &:nth-child(1) {
+        .img {
+          background-color: #d6d8da;
+          background-image: url(../../assets/add_to_slack.svg);
+          background-position: 10px;
+        }
+      }
+
+      &:nth-child(2) {
+        .img {
+          background-color: #4D394B;
+          position: relative;
+          overflow: hidden;
+
+          &::after {
+            color: #AE9EAC;
+            content: "CHANNEL (5)";
+            font-size: $font-size-sm - .1;
+            position: absolute;
+            top: 40%;
+            left: 15%;
+            width: 100%;
+          }
+        }
+      }
+
+      &:nth-child(3) {
+        .img {
+          background-image: url(../../assets/rinku_mascot.svg);
+          background-size: 150px;
+          background-position: -30px 30px;
+          background-color: #E6E4E4;
+        }
+      }
+
+      &:nth-child(4) {
+        .img {
+          background-color: $inverse-bg;
+          background-image: url(../../assets/signin.svg);
+          background-position: 10px;
+        }
+      }
+    }
+
+    @include media-breakpoint-up(sm) {
+      li {
+        display: inline-block;
+        width: 49%;
+        text-align: center;
+        padding: 40px 0;
+
+        .img {
+          margin-bottom: 20px;
+        }
+
+        .works-txt {
+          display: inline-block;
+          text-align: left;
+          text-indent: 20px;
+          width: 80%;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    height: 600px;
+    padding: 20px;
+
+    h1 {
+      font-size: $font-size-lg + 1rem;
+      margin-bottom: 30px;
+    }
+  }
+}
+
+footer {
+  float: left;
+  width: 100%;
+  height: 50px;
+  background-color: $inverse-bg;
+  color: $white;
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent  }
+  50% { border-color: $white;  }
+}
+
+@keyframes typing {
+  0% {
+    content: "Categorize";
+  }
+  25% {
+    background: rgba(255, 255, 255, .4);
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    content: "Organize"
+  }
+  100% {
+    background: rgba(255, 255, 255, .4);
+  }
 }
