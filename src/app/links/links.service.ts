@@ -16,7 +16,6 @@ export class LinksService {
   ) { }
 
   private extractData(res: Response) {
-    console.log("I HAVE BEEN CALLED");
     let body = res.json();
     return body || {};
   }

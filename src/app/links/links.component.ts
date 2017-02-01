@@ -32,7 +32,7 @@ export class LinksComponent implements OnInit {
       token => {
         localStorage.setItem('rinku', JSON.stringify(token));
 
-        this.linksService.getLinks(token.team_id).subscribe(
+        this.linksService.getLinks(token.team.id).subscribe(
           links => {
             this.links = links;
           },
