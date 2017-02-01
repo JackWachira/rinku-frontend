@@ -12,7 +12,7 @@ import { Link } from './link';
 })
 export class LinksComponent implements OnInit {
   requestObject: any;
-  links: any;
+  links: Link;
 
   constructor(
     private route: ActivatedRoute,

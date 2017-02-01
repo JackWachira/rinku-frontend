@@ -3,6 +3,7 @@ import {
     Routes,
     RouterModule
 } from '@angular/router';
+import { Skeleton } from './skeleton/skeleton.component';
 
 
 export const routes: Routes = [
@@ -11,9 +12,22 @@ export const routes: Routes = [
         loadChildren: 'app/home/home.module#HomeModule',
     },
     {
-        path: 'links',
-        loadChildren: 'app/links/links.module#LinksModule',
+        path: '',
+        component: Skeleton,
+        data: {
+            title: 'Dashboard'
+        },
+        children: [
+            {
+                path: 'links',
+                loadChildren: 'app/links/links.module#LinksModule'
+            },
+        ]
     },
+    // {
+    //     path: 'links',
+    //     loadChildren: 'app/links/links.module#LinksModule',
+    // },
 ];
 
 @NgModule({
