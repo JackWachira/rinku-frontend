@@ -24,10 +24,6 @@ export const routes: Routes = [
             },
         ]
     },
-    // {
-    //     path: 'links',
-    //     loadChildren: 'app/links/links.module#LinksModule',
-    // },
 ];
 
 @NgModule({

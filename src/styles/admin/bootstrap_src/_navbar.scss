@@ -51,6 +51,8 @@
   flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
   padding-left: 0;
   margin-bottom: 0;
+  margin-right: 10px;
+  padding-right: 10px;
   list-style: none;
 
   .nav-link {

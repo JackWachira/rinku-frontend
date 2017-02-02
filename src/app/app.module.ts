@@ -7,8 +7,7 @@ import { BreadcrumbsComponent } from './shared/breadcrumb.component';
 import { NAV_DROPDOWN_DIRECTIVES } from './shared/nav-dropdown.directive';
 import { SIDEBAR_TOGGLE_DIRECTIVES } from './shared/sidebar.directive';
 import { AsideToggleDirective } from './shared/aside.directive';
-import { DropdownModule } from 'ng2-bootstrap/dropdown';
-
+import {DropdownModule} from 'ng2-bootstrap/dropdown';
 
 import { Skeleton } from './skeleton/skeleton.component';
 
@@ -28,13 +27,13 @@ import { AppComponent } from './app.component';
     Skeleton
   ],
   imports: [
-    AppRoutingModule,
     BrowserModule,
+    AppRoutingModule,
+    DropdownModule.forRoot(),
     FormsModule,
     HttpModule,
     MaterialModule.forRoot()
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

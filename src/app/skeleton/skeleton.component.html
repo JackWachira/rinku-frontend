@@ -1,11 +1,32 @@
 <header class="app-header navbar">
     <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">&#9776;</button>
     <a class="navbar-brand" href="#"></a>
+
     <ul class="nav navbar-nav hidden-md-down">
         <li class="nav-item">
             <a class="nav-link navbar-toggler sidebar-toggler" href="#">&#9776;</a>
         </li>
+        <li class="nav-item px-1">
+            <form id="search-links">
+                <input type="search" placeholder="Search">
+            </form>
+        </li>
     </ul>
+    <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item dropdown" dropdown (onToggle)="toggled($event)">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                <span class="hidden-md-down">Jack Wachira</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" dropdownMenu aria-labelledby="simple-dropdown">
+                <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a>
+                <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Setting</a>
+                <div class="divider"></div>
+                <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a>
+            </div>
+        </li>
+    </ul>
+
 </header>
 
 <div class="app-body">

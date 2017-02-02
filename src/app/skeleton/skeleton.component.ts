@@ -3,7 +3,9 @@ import { LinksService } from '../links/links.service';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './skeleton.component.html'
+  templateUrl: './skeleton.component.html',
+  styleUrls: ['./skeleton.component.scss'],
+  providers: [LinksService]
 })
 export class Skeleton implements OnInit {
   links: any;
