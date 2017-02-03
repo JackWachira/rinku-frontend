@@ -24,11 +24,10 @@ export class LinksComponent implements OnInit {
 
   ngOnInit() {
     let self = this;
-    
-    this.authObject = JSON.parse(localStorage.getItem('rinku'));
-    this.route.queryParams.subscribe(
+    self.authObject = JSON.parse(localStorage.getItem('rinku'));
+    self.route.queryParams.subscribe(
       val => {
-        this.requestObject = {
+        self.requestObject = {
           client_id: '126735187141.129500575763',
           client_secret: '4c0774074e25b401c9cfa98faa735b84',
           code: val['code'],
@@ -37,64 +36,47 @@ export class LinksComponent implements OnInit {
       error => console.log(error)
     );
 
-    function getAccessToken(requestObject) {
+     const getAccessToken = function getAccessToken() {
+      self.linksService.getAccessToken(self.requestObject).subscribe(
+        token => {
+          localStorage.setItem('rinku', JSON.stringify(token));
 
+          if (token.ok) {
+            self.teamId = token.team.id;
+            getLinks();  
+          } else {
+            self.error = token.error;
+          }
+        },
+        error => console.log(error)
+      );
     }
 
-    if (this.authObject) {    
-      if(this.authObject.ok) {
-        this.teamId = JSON.parse(localStorage.getItem('rinku')).team.id;
+    const getLinks = function() {
+      self.linksService.getLinks(self.teamId).subscribe(
+        links => {
+          self.links = links;
+        },
+        error => console.log(error)
+      )
+    }
 
-        this.linksService.getLinks(this.teamId).subscribe(
-          links => {
-            this.links = links;
-          },
-          error => console.log(error)
-        )
+    if (self.authObject) {    
+      if(self.authObject.ok) {
+        self.teamId = JSON.parse(localStorage.getItem('rinku')).team.id;
+        getLinks();
       } else {
-        if (this.requestObject.code) {
-          this.linksService.getAccessToken(this.requestObject).subscribe(
-            token => {
-              localStorage.setItem('rinku', JSON.stringify(token));
-
-              if (JSON.parse(localStorage.getItem('rinku')).ok) {
-                this.linksService.getLinks(token.team.id).subscribe(
-                  links => {
-                    this.links = links;
-                  },
-                  error => console.log(error)
-                )  
-              } else {
-                this.error = JSON.parse(localStorage.getItem('rinku')).error;
-              }
-            },
-            error => console.log(error)
-          );
+        if (self.requestObject.code) {
+          getAccessToken();
         } else {
-          this.error = this.authObject.error;
+          self.error = self.authObject.error;
         }
       }
     } else {
-       if (this.requestObject.code) {
-        this.linksService.getAccessToken(this.requestObject).subscribe(
-          token => {
-            localStorage.setItem('rinku', JSON.stringify(token));
-
-            if (JSON.parse(localStorage.getItem('rinku')).ok) {
-              this.linksService.getLinks(token.team.id).subscribe(
-                links => {
-                  this.links = links;
-                },
-                error => console.log(error)
-              )  
-            } else {
-              this.error = JSON.parse(localStorage.getItem('rinku')).error;
-            }
-          },
-          error => console.log(error)
-        );
+       if (self.requestObject.code) {
+        getAccessToken();
       } else {
-        this.error = 'You need to sign in to see anything on this page';
+        self.error = 'You need to sign in to see anything on this page';
       }
     }
   }
