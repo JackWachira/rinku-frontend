@@ -15,8 +15,8 @@
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item dropdown" dropdown (onToggle)="toggled($event)">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
-                <span class="hidden-md-down">Jack Wachira</span>
+                <img src="{{userAvatar}}" class="img-avatar" alt="admin@bootstrapmaster.com">
+                <span class="hidden-md-down">{{userName}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right" dropdownMenu aria-labelledby="simple-dropdown">
                 <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a>
@@ -33,8 +33,8 @@
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
-                <li *ngFor="let link of links" class="nav-item">
-                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-speedometer"></i>{{link.channel_name}}<span class="badge badge-info">1</span></a>
+                <li *ngFor="let name of channelNames" class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-speedometer"></i>{{name}}<span class="badge badge-info">1</span></a>
                 </li>
             </ul>
         </nav>
@@ -57,6 +57,6 @@
 
 <footer class="app-footer">
     <a href="http://coreui.io">Rinku</a> &copy; 2017.
-    <span class="float-right">With ♥️, from <a href="http://andela.com" target="_blank">Andela</a>
+    <span class="float-right">With ♥️ from <a href="http://andela.com" target="_blank">Andela</a>
     </span>
 </footer>
