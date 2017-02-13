@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LinksService } from '../links/links.service';
-
 import { LocalStorageService } from 'ng2-webstorage';
 
 @Component({
@@ -18,6 +18,7 @@ export class Skeleton implements OnInit {
   channelNames: Array<String>;
 
   constructor(
+    private router: Router,
     private linksService: LinksService,
     private storage: LocalStorageService
   ) { }
@@ -33,6 +34,11 @@ export class Skeleton implements OnInit {
     $event.preventDefault();
     $event.stopPropagation();
     this.status.isopen = !this.status.isopen;
+  }
+
+  logout(): void {
+    this.storage.clear('rinku');
+    this.router.navigateByUrl('/');
   }
 
   ngOnInit(): void {
