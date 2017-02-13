@@ -64,7 +64,7 @@ export class Skeleton implements OnInit {
 
     let auth = self.storage.retrieve('rinku');
     
-    if(auth) {
+    if(auth && auth.ok) {
       self.userAvatar = auth.user.image_48;
       self.userName = auth.user.name;
       self.teamId = auth.team.id;
@@ -72,10 +72,12 @@ export class Skeleton implements OnInit {
     } else {
       self.storage.observe('rinku').subscribe(
         authObject => {
-          self.userAvatar = authObject.user.image_48;
-          self.userName = authObject.user.name;
-          self.teamId = authObject.team.id;
-          getLinks();
+          if(authObject.ok) {
+            self.userAvatar = authObject.user.image_48;
+            self.userName = authObject.user.name;
+            self.teamId = authObject.team.id;
+            getLinks();
+          }
         },
         error => console.log(error)
       )
