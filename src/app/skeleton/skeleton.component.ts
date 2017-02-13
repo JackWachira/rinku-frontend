@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { LinksService } from '../links/links.service';
 
+import { LocalStorageService } from 'ng2-webstorage';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './skeleton.component.html',
   styleUrls: ['./skeleton.component.scss'],
   providers: [LinksService]
 })
+
 export class Skeleton implements OnInit {
   links: any;
   userAvatar: string;
   userName: string;
+  teamId: string;
   channelNames: Array<String>;
 
-  constructor(private linksService: LinksService
+  constructor(
+    private linksService: LinksService,
+    private storage: LocalStorageService
   ) { }
 
   public disabled: boolean = false;
@@ -33,10 +39,8 @@ export class Skeleton implements OnInit {
     let self = this;
     let names = [];
     
-    let token = JSON.parse(localStorage.getItem('rinku'));
-
     const getLinks = function() {
-      self.linksService.getLinks(token.team.id).subscribe(
+      self.linksService.getLinks(self.teamId).subscribe(
         links => {
           self.links = links;
 
@@ -52,12 +56,23 @@ export class Skeleton implements OnInit {
       )
     }
 
-    if (token) {    
-      if(token.ok) {
-        self.userAvatar = token.user.image_32;
-        self.userName = token.user.name;
-        getLinks();
-      }
-    }
+    let auth = self.storage.retrieve('rinku');
+    
+    if(auth) {
+      self.userAvatar = auth.user.image_48;
+      self.userName = auth.user.name;
+      self.teamId = auth.team.id;
+      getLinks();
+    } else {
+      self.storage.observe('rinku').subscribe(
+        authObject => {
+          self.userAvatar = authObject.user.image_48;
+          self.userName = authObject.user.name;
+          self.teamId = authObject.team.id;
+          getLinks();
+        },
+        error => console.log(error)
+      )
+    }  
   }
 }

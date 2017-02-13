@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { LocalStorageService } from 'ng2-webstorage';
 import { LinksService } from './links.service';
-
-import { Link } from './link';
 
 @Component({
   selector: 'app-links',
   templateUrl: './links.component.html',
-  styleUrls: ['./links.component.css']
+  styleUrls: ['./links.component.scss']
 })
+
 export class LinksComponent implements OnInit {
   requestObject: any;
   links: any;
@@ -19,12 +19,14 @@ export class LinksComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private linksService: LinksService
-  ) { }
+    private linksService: LinksService,
+    private storage: LocalStorageService
+  ) {}
 
   ngOnInit() {
     let self = this;
-    self.authObject = JSON.parse(localStorage.getItem('rinku'));
+
+    self.authObject = self.storage.retrieve('rinku');
     self.route.queryParams.subscribe(
       val => {
         self.requestObject = {
@@ -39,7 +41,7 @@ export class LinksComponent implements OnInit {
      const getAccessToken = function getAccessToken() {
       self.linksService.getAccessToken(self.requestObject).subscribe(
         token => {
-          localStorage.setItem('rinku', JSON.stringify(token));
+          self.storage.store('rinku', token);
 
           if (token.ok) {
             self.teamId = token.team.id;
@@ -63,7 +65,7 @@ export class LinksComponent implements OnInit {
 
     if (self.authObject) {    
       if(self.authObject.ok) {
-        self.teamId = JSON.parse(localStorage.getItem('rinku')).team.id;
+        self.teamId = self.storage.retrieve('rinku').team.id;
         getLinks();
       } else {
         if (self.requestObject.code) {
