@@ -1,16 +1,19 @@
-<div *ngIf="!error">
-  <md-card>Welcome to your team's dashboard</md-card>
+<md-card *ngIf="!error">Welcome to your team's dashboard</md-card>
 
-  <md-grid-list cols="3">
-    <md-grid-tile *ngFor="let link of links">
-      <md-card>
-        <md-card-title>Link</md-card-title>
-        <md-card-content>
-          <a href="{{ link.urls[0].value }}">{{ link.urls[0].href }}</a>
-        </md-card-content>
-      </md-card>
-    </md-grid-tile>
-  </md-grid-list>
+<div class="link-container">
+  <div class="row" *ngIf="!error">
+    <div class="col-md-4" *ngFor="let link of links">
+      <div class="card" style="width: 20rem;">
+        <img class="card-img-top" src="http://placehold.it/350x150" alt="Card image cap">
+        <div class="card-block">
+          <!--<h4 class="card-title">Card title</h4>-->
+          <p class="card-text"><span class="badge badge-default">{{ link?.channel_name }}</span></p>
+          <p class="card-text" style="word-wrap: break-word;">{{ link?.text }}</p>
+          <a href={{link?.urls[0].href}} class="btn btn-primary" target="_blank">Go to link</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <md-card *ngIf="error" class="error">Error: {{error}}</md-card>

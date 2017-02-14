@@ -1,9 +1,12 @@
-$error_color: #E25F6B;
-$white: white;
+$error-color: #e25f6b;
+$white: #fff;
 
 .error {
-    background-color: $error_color;
-    color: $white;
+  background-color: $error-color;
+  color: $white;
 }
 
-
+.link-container {
+  height: 100%;
+  overflow: scroll;
+}
