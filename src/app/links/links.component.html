@@ -1,14 +1,16 @@
-<md-card *ngIf="!error">Welcome to your team's dashboard</md-card>
+<md-card *ngIf="!error">Welcome to {{teamName}}'s dashboard</md-card>
 
 <div class="link-container">
   <div class="row" *ngIf="!error">
     <div class="col-md-4" *ngFor="let link of links">
-      <div class="card" style="width: 20rem;">
-        <img class="card-img-top" src="http://placehold.it/350x150" alt="Card image cap">
+      <div class="card">
+        <img class="card-img-top" src="http://placehold.it/450x250" alt="Card image cap">
         <div class="card-block">
           <!--<h4 class="card-title">Card title</h4>-->
           <p class="card-text"><span class="badge badge-default">{{ link?.channel_name }}</span></p>
-          <p class="card-text" style="word-wrap: break-word;">{{ link?.text }}</p>
+          <p class="card-text link-text" style="word-wrap: break-word;">
+            {{ link?.text }}
+          </p>
           <a href={{link?.urls[0].href}} class="btn btn-primary" target="_blank">Go to link</a>
         </div>
       </div>

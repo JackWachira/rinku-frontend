@@ -14,6 +14,7 @@ export class LinksComponent implements OnInit {
   requestObject: any;
   links: any;
   teamId: string;
+  teamName: string;
   authObject: any;
   error: any;
 
@@ -45,6 +46,7 @@ export class LinksComponent implements OnInit {
 
           if (token.ok) {
             self.teamId = token.team.id;
+            self.teamName = token.team.name;
             getLinks();  
           } else {
             self.error = token.error;
@@ -66,6 +68,7 @@ export class LinksComponent implements OnInit {
     if (self.authObject) {    
       if(self.authObject.ok) {
         self.teamId = self.storage.retrieve('rinku').team.id;
+        self.teamName = self.storage.retrieve('rinku').team.name;
         getLinks();
       } else {
         if (self.requestObject.code) {

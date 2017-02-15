@@ -1,5 +1,6 @@
 $error-color: #e25f6b;
 $white: #fff;
+$link-text-background: #247BA0;
 
 .error {
   background-color: $error-color;
@@ -9,4 +10,9 @@ $white: #fff;
 .link-container {
   height: 100%;
   overflow: scroll;
+}
+
+.link-text {
+//   background-color:$link-text-background;
+//   color: $white;
 }
