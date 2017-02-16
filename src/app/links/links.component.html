@@ -5,8 +5,7 @@
     <div class="col-md-4" *ngFor="let link of links">
       <div class="card">
         <!--<img class="card-img-top" src="http://placehold.it/450x250" alt="Card image cap">-->
-        <!--<img src='http://api.page2images.com/directlink?p2i_url=http://www.google.com&p2i_key=6d56ee0339bb4f09'>-->
-        <img class="card-img-top" src="http://api.page2images.com/directlink?p2i_url={{link?.urls[0].href | extractlink}}&p2i_key=6d56ee0339bb4f09">
+        <img class="card-img-top" src="https://phantomjscloud.com/api/browser/v2/ak-6tqfx-9rqg0-qn3jt-0nnad-at5y6/?request={url:%22{{link?.urls[0].href | extractlink}}%22,renderType:%22jpg%22,height:250,width:450}" height="250">
         <div class="card-block">
           <p class="card-text"><span class="badge badge-default">{{ link?.channel_name }}</span></p>
           <p class="card-text link-text" style="word-wrap: break-word;">
