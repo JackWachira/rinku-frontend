@@ -4,14 +4,15 @@
   <div class="row" *ngIf="!error">
     <div class="col-md-4" *ngFor="let link of links">
       <div class="card">
-        <img class="card-img-top" src="http://placehold.it/450x250" alt="Card image cap">
+        <!--<img class="card-img-top" src="http://placehold.it/450x250" alt="Card image cap">-->
+        <!--<img src='http://api.page2images.com/directlink?p2i_url=http://www.google.com&p2i_key=6d56ee0339bb4f09'>-->
+        <img class="card-img-top" src="http://api.page2images.com/directlink?p2i_url={{link?.urls[0].href | extractlink}}&p2i_key=6d56ee0339bb4f09">
         <div class="card-block">
-          <!--<h4 class="card-title">Card title</h4>-->
           <p class="card-text"><span class="badge badge-default">{{ link?.channel_name }}</span></p>
           <p class="card-text link-text" style="word-wrap: break-word;">
             {{ link?.text }}
           </p>
-          <a href={{link?.urls[0].href}} class="btn btn-primary" target="_blank">Go to link</a>
+          <a href="{{link?.urls[0].href | extractlink}}" class="btn btn-primary" target="_blank">Go to link</a>
         </div>
       </div>
     </div>
