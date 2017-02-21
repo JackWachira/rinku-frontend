@@ -49,7 +49,7 @@ export class LinksService {
 
   getLinks(teamId): Observable<Link> {
     return this.http
-      .get('http://127.0.0.1:3000/links?teamId=' + teamId)
+      .get('https://rinku-bot.herokuapp.com/links?teamId=' + teamId)
       .map(this.extractData)
       .catch(this.handleError)
   }

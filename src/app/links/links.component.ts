@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { LocalStorageService } from 'ng2-webstorage';
@@ -11,18 +11,21 @@ import { LinksService } from './links.service';
 })
 
 export class LinksComponent implements OnInit {
+  @Input() articles: any;
   requestObject: any;
   links: any;
   teamId: string;
   teamName: string;
   authObject: any;
   error: any;
+  metascraper = require('metascraper');
+  async = require('async');
 
   constructor(
     private route: ActivatedRoute,
     private linksService: LinksService,
     private storage: LocalStorageService
-  ) {}
+  ) { }
 
   ngOnInit() {
     let self = this;
@@ -35,11 +38,13 @@ export class LinksComponent implements OnInit {
           client_secret: '4c0774074e25b401c9cfa98faa735b84',
           code: val['code'],
         };
-      }, 
+      },
       error => console.log(error)
     );
 
-     const getAccessToken = function getAccessToken() {
+
+
+    const getAccessToken = function getAccessToken() {
       self.linksService.getAccessToken(self.requestObject).subscribe(
         token => {
           self.storage.store('rinku', token);
@@ -47,7 +52,7 @@ export class LinksComponent implements OnInit {
           if (token.ok) {
             self.teamId = token.team.id;
             self.teamName = token.team.name;
-            getLinks();  
+            getLinks();
           } else {
             self.error = token.error;
           }
@@ -56,17 +61,18 @@ export class LinksComponent implements OnInit {
       );
     }
 
-    const getLinks = function() {
+    const getLinks = function () {
       self.linksService.getLinks(self.teamId).subscribe(
         links => {
           self.links = links;
+          self.scrapeUrls(links);
         },
         error => console.log(error)
       )
     }
 
-    if (self.authObject) {    
-      if(self.authObject.ok) {
+    if (self.authObject) {
+      if (self.authObject.ok) {
         self.teamId = self.storage.retrieve('rinku').team.id;
         self.teamName = self.storage.retrieve('rinku').team.name;
         getLinks();
@@ -78,11 +84,33 @@ export class LinksComponent implements OnInit {
         }
       }
     } else {
-       if (self.requestObject.code) {
+      if (self.requestObject.code) {
         getAccessToken();
       } else {
         self.error = 'You need to sign in to see anything on this page';
       }
     }
+  }
+
+  sanitizeUrl(url) {
+    let matcher = new RegExp('[^\|]*');
+    return url.match(matcher)[0];
+  }
+  scrapeUrls(links) {
+    let that = this;
+    let tempLinks = links;
+    this.async.map(tempLinks, mapScrape, function (err, results) {
+      that.articles = results;
+    });
+
+    function mapScrape(link, done) {
+      link.urls.map(val => {
+        that.metascraper.scrapeUrl(that.sanitizeUrl(val.value)).then((metadata) => {
+          link.urls = metadata;
+          done(null, link);
+        });
+      });
+    }
+
   }
 }
