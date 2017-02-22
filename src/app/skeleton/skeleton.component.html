@@ -33,6 +33,9 @@
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" (click)="filterLinksByChannel('all')"><i class="icon-speedometer"></i>all channels<span class="badge badge-info">1</span></a>
+                </li>
                 <li *ngFor="let name of channelNames" class="nav-item">
                     <a class="nav-link" (click)="filterLinksByChannel(name)"><i class="icon-speedometer"></i>{{name}}<span class="badge badge-info">1</span></a>
                 </li>

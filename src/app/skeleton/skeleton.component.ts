@@ -46,6 +46,22 @@ export class Skeleton implements OnInit {
     this.router.navigateByUrl('/');
   }
 
+  filterLinksByChannel(channelName: string): void {
+    if(channelName === 'all') {
+      this.linksService.setLinks(this.links);        
+    } else {
+      let tempLinkContainer = [];
+
+      this.links.map((link) => {
+        if(link.channel_name === channelName) {
+          tempLinkContainer.push(link);
+        }
+      });
+
+      this.linksService.setLinks(tempLinkContainer);        
+    }
+  }
+
   ngOnInit(): void {
     let self = this;
     let names = [];
