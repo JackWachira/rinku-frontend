@@ -14,9 +14,6 @@ import { MaterialModule } from '@angular/material';
     CommonModule,
     MaterialModule
   ],
-  providers: [
-    LinksService
-  ],
   declarations: [ExtractLink, LinksComponent]
 })
 export class LinksModule { }

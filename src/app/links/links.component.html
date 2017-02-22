@@ -1,11 +1,10 @@
-<md-card *ngIf="!error">Welcome to {{teamName}}'s dashboard</md-card>
+<md-card *ngIf="links">Welcome to {{teamName}}'s dashboard</md-card>
 
-<div class="link-container">
-  <div class="row" *ngIf="!error">
+<div class="link-container" *ngIf="links">
+  <div class="row">
     <div class="col-md-4" *ngFor="let link of links">
       <div class="card">
-        <!--<img class="card-img-top" src="http://placehold.it/450x250" alt="Card image cap">-->
-        <img class="card-img-top" src="https://phantomjscloud.com/api/browser/v2/ak-6tqfx-9rqg0-qn3jt-0nnad-at5y6/?request={url:%22{{link?.urls[0].href | extractlink}}%22,renderType:%22jpg%22,height:250,width:450}" height="250">
+        <img class="card-img-top" src="http://placehold.it/450x250" alt="Card image cap">
         <div class="card-block">
           <p class="card-text"><span class="badge badge-default">{{ link?.channel_name }}</span></p>
           <p class="card-text link-text" style="word-wrap: break-word;">
@@ -18,4 +17,4 @@
   </div>
 </div>
 
-<md-card *ngIf="error" class="error">Error: {{error}}</md-card>
+<md-card *ngIf="!links" class="error">You need to sign in again <a href='/'>here</a></md-card>
