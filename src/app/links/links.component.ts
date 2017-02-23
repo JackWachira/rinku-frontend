@@ -101,6 +101,12 @@ export class LinksComponent implements OnInit {
     let tempLinks = links;
     this.async.map(tempLinks, mapScrape, function (err, results) {
       that.articles = results;
+
+      for(let item of that.articles) {
+        if(!item.urls){
+          console.log(item);
+        }
+      }
     });
 
     function mapScrape(link, done) {

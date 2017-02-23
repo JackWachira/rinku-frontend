@@ -13,10 +13,16 @@ $link-text-background: #247BA0;
 }
 
 .card-img-top {
-  width: 318px;
+  width: 20rem;
   height: 166px;
 }
-.card-block{
-  height: 250px;
-  overflow-y: scroll;
+
+.card-header {
+  background-color: $white;
+  // color: $white;
+}
+
+.link-card {
+  // width: 40rem;
+  border-radius: 10px;
 }
