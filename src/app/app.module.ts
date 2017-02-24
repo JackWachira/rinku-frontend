@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, BrowserXhr } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { BreadcrumbsComponent } from './shared/breadcrumb.component';
 import { NAV_DROPDOWN_DIRECTIVES } from './shared/nav-dropdown.directive';
@@ -17,8 +17,12 @@ import { Skeleton } from './skeleton/skeleton.component';
 import { AppRoutingModule } from './app.routing';
 
 import { AppComponent } from './app.component';
+import { CustExtBrowserXhr } from './cust-ext-browser-xhr';
 
 @NgModule({
+  providers: [
+    { provide: BrowserXhr, useClass: CustExtBrowserXhr }
+  ],
   declarations: [
     AppComponent,
     BreadcrumbsComponent,

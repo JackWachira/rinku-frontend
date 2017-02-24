@@ -11,7 +11,7 @@ import { LinksService } from './links.service';
 })
 
 export class LinksComponent implements OnInit {
-  @Input() articles: any;
+  @Input() articles = new Array();
   requestObject: any;
   links: any;
   teamId: string;
@@ -20,6 +20,8 @@ export class LinksComponent implements OnInit {
   error: any;
   metascraper = require('metascraper');
   async = require('async');
+  metaInspector = require('node-metainspector');
+  cheerio = require('cheerio')
 
   constructor(
     private route: ActivatedRoute,
@@ -59,13 +61,14 @@ export class LinksComponent implements OnInit {
         },
         error => console.log(error)
       );
-    }
+    };
 
     const getLinks = function () {
       self.linksService.getLinks(self.teamId).subscribe(
         links => {
           self.links = links;
-          self.scrapeUrls(links);
+          self.getmetaInspectorlinks();
+          // self.scrapeUrls(links);
         },
         error => console.log(error)
       )
@@ -96,16 +99,26 @@ export class LinksComponent implements OnInit {
     let matcher = new RegExp('[^\|]*');
     return url.match(matcher)[0];
   }
+
+  getmetaInspectorlinks() {
+    let $ = this.cheerio.load('<h2 class="title">Hello world</h2>');
+
+    $('h2.title').text('Hello there!');
+    $('h2').addClass('welcome');
+
+    $.html();
+  }
+
+
+
+
   scrapeUrls(links) {
     let that = this;
     let tempLinks = links;
     this.async.map(tempLinks, mapScrape, function (err, results) {
-      that.articles = results;
-
-      for(let item of that.articles) {
-        if(!item.urls){
-          console.log(item);
-        }
+      // console.log('res: ', results);
+      for (let item of that.articles) {
+          console.log('image: ', item.urls.image);
       }
     });
 
@@ -113,6 +126,7 @@ export class LinksComponent implements OnInit {
       link.urls.map(val => {
         that.metascraper.scrapeUrl(that.sanitizeUrl(val.value)).then((metadata) => {
           link.urls = metadata;
+          that.articles.push(link);
           done(null, link);
         });
       });

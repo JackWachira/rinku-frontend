@@ -7,9 +7,9 @@
         <div class="card-header">
           <h6 class="lead">{{article.urls.title}}</h6>
         </div>
-        <img class="card-img-top" *ngIf="article.urls.image !== null" src="{{article.urls.image}}" alt="Card image cap">
+        <img class="card-img-top" *ngIf="article.urls.image" src="{{article.urls.image}}" alt="Card image cap">
 
-        <div class="card-block" *ngIf="articles.urls.image === null">
+        <div class="card-block" *ngIf="!article.urls.image">
           <p class="card-text blockquote">{{article.urls.description | rtrim}}</p>
         </div>
         <div class="card-footer text-muted">
