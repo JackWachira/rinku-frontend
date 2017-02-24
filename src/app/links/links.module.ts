@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LinksComponent } from './links.component';
 import { LinksRoutingModule } from './links-routing.module';
 import { LinksService } from './links.service';
+import { ExtractLink } from './link-extract.pipe';
 
 import { MaterialModule } from '@angular/material';
 
@@ -13,9 +14,6 @@ import { MaterialModule } from '@angular/material';
     CommonModule,
     MaterialModule
   ],
-  providers: [
-    LinksService
-  ],
-  declarations: [LinksComponent]
+  declarations: [ExtractLink, LinksComponent]
 })
 export class LinksModule { }

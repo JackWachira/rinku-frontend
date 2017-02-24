@@ -5,6 +5,7 @@ import { Token } from './token';
 import { Link } from './link';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -14,6 +15,9 @@ export class LinksService {
   constructor(
     private http: Http
   ) { }
+
+  private linkObject = new Subject<any>();
+  linkObject$ = this.linkObject.asObservable();
 
   private extractData(res: Response) {
     let body = res.json();
@@ -31,6 +35,10 @@ export class LinksService {
     }
     console.error(errMsg);
     return Observable.throw(errMsg);
+  }
+
+  setLinks(links: any) {
+    this.linkObject.next(links);
   }
 
   getAccessToken(requestObject): Observable<Token> {

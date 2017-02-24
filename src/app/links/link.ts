@@ -3,7 +3,8 @@ export class Link {
     public urls: any,
     public text: String,
     public user: String,
-    public channel: String,
+    public channel_id: String,
+    public channel_name: String,
     public team: String,
     public timestamp: Date
   ) { }
