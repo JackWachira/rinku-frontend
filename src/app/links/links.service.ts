@@ -47,10 +47,10 @@ export class LinksService {
       .catch(this.handleError);
   }
 
-  getLinks(teamId): Observable<Link> {
+  getLinks(teamId): Observable<Link[]> {
     return this.http
       .get('http://localhost:3000/links?teamId=' + teamId)
       .map(this.extractData)
-      .catch(this.handleError)
+      .catch(this.handleError);
   }
 }

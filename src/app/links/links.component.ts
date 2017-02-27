@@ -3,11 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 
 import { LocalStorageService } from 'ng2-webstorage';
 import { LinksService } from './links.service';
+import { Observable } from 'rxjs/Observable';
+import { Link } from './link';
 
 @Component({
   selector: 'app-links',
-  templateUrl: './links.component.html',
-  styleUrls: ['./links.component.scss']
+  templateUrl: './linktest.component.html',
+  styleUrls: ['./linktest.component.scss']
 })
 
 export class LinksComponent implements OnInit {
@@ -18,10 +20,8 @@ export class LinksComponent implements OnInit {
   teamName: string;
   authObject: any;
   error: any;
-  metascraper = require('metascraper');
   async = require('async');
-  metaInspector = require('node-metainspector');
-  cheerio = require('cheerio')
+  stuff: Observable<Link[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -64,15 +64,23 @@ export class LinksComponent implements OnInit {
     };
 
     const getLinks = function () {
-      self.linksService.getLinks(self.teamId).subscribe(
-        links => {
-          self.links = links;
-          self.getmetaInspectorlinks();
-          // self.scrapeUrls(links);
-        },
-        error => console.log(error)
-      )
-    }
+      self.stuff = self.linksService.getLinks(self.teamId);
+      self.stuff.subscribe(val => {
+        console.log('valis: ', val);
+        val.map(link => {
+          link.urls.map(url => {
+            self.articles.push({
+              'channel_id': link.channel_id,
+              'channel_name': link.channel_name,
+              'team_id': link.team,
+              'text': link.text,
+              'timestamp': link.timestamp,
+              'url': url,
+            });
+          });
+        });
+      });
+    };
 
     if (self.authObject) {
       if (self.authObject.ok) {
@@ -93,44 +101,5 @@ export class LinksComponent implements OnInit {
         self.error = 'You need to sign in to see anything on this page';
       }
     }
-  }
-
-  sanitizeUrl(url) {
-    let matcher = new RegExp('[^\|]*');
-    return url.match(matcher)[0];
-  }
-
-  getmetaInspectorlinks() {
-    let $ = this.cheerio.load('<h2 class="title">Hello world</h2>');
-
-    $('h2.title').text('Hello there!');
-    $('h2').addClass('welcome');
-
-    $.html();
-  }
-
-
-
-
-  scrapeUrls(links) {
-    let that = this;
-    let tempLinks = links;
-    this.async.map(tempLinks, mapScrape, function (err, results) {
-      // console.log('res: ', results);
-      for (let item of that.articles) {
-          console.log('image: ', item.urls.image);
-      }
-    });
-
-    function mapScrape(link, done) {
-      link.urls.map(val => {
-        that.metascraper.scrapeUrl(that.sanitizeUrl(val.value)).then((metadata) => {
-          link.urls = metadata;
-          that.articles.push(link);
-          done(null, link);
-        });
-      });
-    }
-
   }
 }

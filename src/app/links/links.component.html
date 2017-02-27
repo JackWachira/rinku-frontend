@@ -5,15 +5,15 @@
 
       <div class="card link-card" style="width: 20rem;">
         <div class="card-header">
-          <h6 class="lead">{{article.urls.title}}</h6>
+          <h6 class="lead">{{article.url.title}}</h6>
         </div>
-        <img class="card-img-top" *ngIf="article.urls.image" src="{{article.urls.image}}" alt="Card image cap">
+        <img class="card-img-top" *ngIf="article.url.image" src="{{article.url.image}}" alt="Card image cap">
 
-        <div class="card-block" *ngIf="!article.urls.image">
-          <p class="card-text blockquote">{{article.urls.description | rtrim}}</p>
+        <div class="card-block" *ngIf="!article.url.image">
+          <p class="card-text blockquote">{{article.url.description | rtrim}}</p>
         </div>
         <div class="card-footer text-muted">
-          <img *ngIf="article.urls.image" src="{{article.urls.image}}" width="15" height="15">
+          <img *ngIf="article.image" src="{{article.url.image}}" width="15" height="15">
           <span >Shared in {{article.channel_name}} on {{article.timestamp | date}}</span>
         </div>
       </div>
