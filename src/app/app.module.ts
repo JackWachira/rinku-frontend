@@ -17,12 +17,8 @@ import { Skeleton } from './skeleton/skeleton.component';
 import { AppRoutingModule } from './app.routing';
 
 import { AppComponent } from './app.component';
-import { CustExtBrowserXhr } from './cust-ext-browser-xhr';
 
 @NgModule({
-  providers: [
-    { provide: BrowserXhr, useClass: CustExtBrowserXhr }
-  ],
   declarations: [
     AppComponent,
     BreadcrumbsComponent,

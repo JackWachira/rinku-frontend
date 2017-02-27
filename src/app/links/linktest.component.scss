@@ -30,7 +30,7 @@ $keyBreakpoint: 37.5em;
   $brandBlue: #2A91E7;
   $brandGrey: #eee;
   $brandAqua: #23D8A5;
-	$arrowSize: 30px;
+	$arrowSize: 10px;
 	$arrowColor: $brandGreen;
 	$radius: 5px;
   margin-left: 10.8px;
@@ -61,14 +61,14 @@ $keyBreakpoint: 37.5em;
 	}
   
   .inner-wrap {
-    padding: 1.5em;
     p:last-of-type { margin-bottom: 0; }
   }
   
   h3 {
     margin: 0;
-    padding-bottom: 1em;
-    font-size: .8em;
+    height: 54px;
+    padding: 1em;
+    font-size: 1em;
     a {
       color: #000;
       &:hover {
@@ -95,11 +95,15 @@ $keyBreakpoint: 37.5em;
     font-size: .9em;
     color: #777;
     line-height: 1.6;
+    padding: 1em;    
   }
 
   .description {
     overflow-y: scroll;
-    height: 163px;    
+    height: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;  
   }
   
   a {
@@ -113,10 +117,12 @@ $keyBreakpoint: 37.5em;
   
   .likes-bar {
     border: solid 1px $brandGrey;
-    padding: 0 0.5em;
     border-width: 1px 0 1px 0;
     font-size: 88%;
-    p { color: #888; }
+    p { 
+      color: #888;
+      margin: 0;
+    }
     p a:first-of-type { 
       color: #333; 
       font-weight: bold; 
@@ -145,7 +151,7 @@ $keyBreakpoint: 37.5em;
       font-size: 1.1em;
       a { 
         display: block; 
-        padding: 1em 0; 
+        padding: 0.5em 0;
         color: #666;
         &:hover, &:focus {
           color: #000;

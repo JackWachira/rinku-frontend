@@ -34,7 +34,7 @@
         <nav class="sidebar-nav">
             <ul class="nav">
                 <li *ngFor="let name of channelNames" class="nav-item">
-                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-speedometer"></i>{{name}}<span class="badge badge-info">1</span></a>
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']">#{{name}}<span class="badge badge-info">1</span></a>
                 </li>
             </ul>
         </nav>

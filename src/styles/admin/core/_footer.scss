@@ -4,5 +4,8 @@
   line-height: $footer-height;
   color: $footer-color;
   background: $footer-bg;
+  position: fixed;
+    bottom: 0;
+    width: 100%;
   @include borders($footer-borders);
 }

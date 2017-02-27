@@ -44,15 +44,19 @@ export class Skeleton implements OnInit {
   ngOnInit(): void {
     let self = this;
     let names = [];
-    
-    const getLinks = function() {
+
+    const getLinks = function () {
       self.linksService.getLinks(self.teamId).subscribe(
         links => {
+          console.log('channels 1: ', links);
+
           self.links = links;
 
           // This is to make sure channel names are not repeated
           self.links.map((link) => {
-            if(names.indexOf(link.channel_name) === -1) {
+            console.log('channels: ', link);
+
+            if (names.indexOf(link.channel_name) === -1) {
               names.push(link.channel_name);
             }
           });
@@ -63,8 +67,8 @@ export class Skeleton implements OnInit {
     }
 
     let auth = self.storage.retrieve('rinku');
-    
-    if(auth && auth.ok) {
+
+    if (auth && auth.ok) {
       self.userAvatar = auth.user.image_48;
       self.userName = auth.user.name;
       self.teamId = auth.team.id;
@@ -72,7 +76,7 @@ export class Skeleton implements OnInit {
     } else {
       self.storage.observe('rinku').subscribe(
         authObject => {
-          if(authObject.ok) {
+          if (authObject.ok) {
             self.userAvatar = authObject.user.image_48;
             self.userName = authObject.user.name;
             self.teamId = authObject.team.id;
@@ -81,6 +85,6 @@ export class Skeleton implements OnInit {
         },
         error => console.log(error)
       )
-    }  
+    }
   }
 }
