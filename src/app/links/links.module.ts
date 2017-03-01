@@ -4,6 +4,7 @@ import { LinksComponent } from './links.component';
 import { LinksRoutingModule } from './links-routing.module';
 import { LinksService } from './links.service';
 import { ExtractLink } from './link-extract.pipe';
+import { FilterChannels } from './filterchannel.pipe';
 import {NgPipesModule} from 'ngx-pipes';
 
 import { MaterialModule } from '@angular/material';
@@ -19,6 +20,6 @@ import { MaterialModule } from '@angular/material';
   providers: [
     LinksService
   ],
-  declarations: [ExtractLink, LinksComponent]
+  declarations: [ExtractLink, FilterChannels, LinksComponent, ]
 })
 export class LinksModule { }

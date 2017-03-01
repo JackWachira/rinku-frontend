@@ -5,15 +5,18 @@ import { LocalStorageService } from 'ng2-webstorage';
 import { LinksService } from './links.service';
 import { Observable } from 'rxjs/Observable';
 import { Link } from './link';
+import { SkeletonService } from '../shared/skeleton.service';
+import { ChannelItem } from '../shared/channel-item';
 
 @Component({
   selector: 'app-links',
-  templateUrl: './linktest.component.html',
-  styleUrls: ['./linktest.component.scss']
+  templateUrl: './links.component.html',
+  styleUrls: ['./links.component.scss'],
 })
 
 export class LinksComponent implements OnInit {
   @Input() articles = new Array();
+  @Input() channelName = '';
   requestObject: any;
   links: any;
   teamId: string;
@@ -26,8 +29,11 @@ export class LinksComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private linksService: LinksService,
-    private storage: LocalStorageService
-  ) { }
+    private storage: LocalStorageService,
+    private skeletonService: SkeletonService
+  ) {
+    this.skeletonService.getChannelEmitter().subscribe(item => this.onChannelChanged(item));
+  }
 
   ngOnInit() {
     let self = this;
@@ -101,5 +107,9 @@ export class LinksComponent implements OnInit {
         self.error = 'You need to sign in to see anything on this page';
       }
     }
+  }
+  onChannelChanged(item: ChannelItem) {
+    console.log('channel changed: ', item);
+    this.channelName = item.name;
   }
 }

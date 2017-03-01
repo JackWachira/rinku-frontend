@@ -1,26 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { LinksService } from '../links/links.service';
 import { LocalStorageService } from 'ng2-webstorage';
+import { SkeletonService } from '../shared/skeleton.service';
+import { ChannelItem } from '../shared/channel-item';
 
+declare let alasql;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './skeleton.component.html',
   styleUrls: ['./skeleton.component.scss'],
-  providers: [LinksService]
+  providers: [LinksService, SkeletonService]
 })
 
 export class Skeleton implements OnInit {
-  links: any;
   userAvatar: string;
   userName: string;
   teamId: string;
-  channelNames: Array<String>;
+  channels: Array<String>;
 
   constructor(
     private router: Router,
     private linksService: LinksService,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    private skeletonService: SkeletonService
   ) { }
 
   public disabled: boolean = false;
@@ -28,6 +31,12 @@ export class Skeleton implements OnInit {
 
   public toggled(open: boolean): void {
     console.log('Dropdown is now: ', open);
+  }
+
+  selectChannel(channel: ChannelItem) {
+    console.log('channel is: ', channel);
+
+    this.skeletonService.changeChannel(channel);
   }
 
   public toggleDropdown($event: MouseEvent): void {
@@ -40,51 +49,37 @@ export class Skeleton implements OnInit {
     this.storage.clear('rinku');
     this.router.navigateByUrl('/');
   }
+  getChannels = function () {
+    let self = this;
+    this.linksService.getLinks(this.teamId).subscribe(
+      links => {
+        self.linksCount = links.length;
+        self.channels = alasql('SELECT DISTINCT channel_name AS [name], channel_id AS [id] \
+                              , COUNT(*) AS [count] FROM ? GROUP BY channel_name', [links]);
+        self.selectChannel(self.channels[0]);
+      },
+      error => console.log(error)
+    )
+  }
 
   ngOnInit(): void {
-    let self = this;
-    let names = [];
-
-    const getLinks = function () {
-      self.linksService.getLinks(self.teamId).subscribe(
-        links => {
-          console.log('channels 1: ', links);
-
-          self.links = links;
-
-          // This is to make sure channel names are not repeated
-          self.links.map((link) => {
-            console.log('channels: ', link);
-
-            if (names.indexOf(link.channel_name) === -1) {
-              names.push(link.channel_name);
-            }
-          });
-          self.channelNames = names;
-        },
-        error => console.log(error)
-      )
-    }
-
-    let auth = self.storage.retrieve('rinku');
-
+    let auth = this.storage.retrieve('rinku');
     if (auth && auth.ok) {
-      self.userAvatar = auth.user.image_48;
-      self.userName = auth.user.name;
-      self.teamId = auth.team.id;
-      getLinks();
+      this.userAvatar = auth.user.image_48;
+      this.userName = auth.user.name;
+      this.teamId = auth.team.id;
     } else {
-      self.storage.observe('rinku').subscribe(
+      this.storage.observe('rinku').subscribe(
         authObject => {
           if (authObject.ok) {
-            self.userAvatar = authObject.user.image_48;
-            self.userName = authObject.user.name;
-            self.teamId = authObject.team.id;
-            getLinks();
+            this.userAvatar = authObject.user.image_48;
+            this.userName = authObject.user.name;
+            this.teamId = authObject.team.id;
           }
         },
         error => console.log(error)
       )
     }
+    this.getChannels();
   }
 }
