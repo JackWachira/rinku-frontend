@@ -9,7 +9,10 @@ import { LinksComponent } from './links.component';
 const routes: Routes = [
     {
         path: '',
-        component: LinksComponent
+        component: LinksComponent,
+        data: {
+            title: 'Links'
+        }
     }
 ];
 
