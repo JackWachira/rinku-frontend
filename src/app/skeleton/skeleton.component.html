@@ -33,8 +33,11 @@
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
+                <li class="nav-title">
+                    SUBSCRIBED CHANNELS ({{channels?.length}})
+                </li>
                 <li *ngFor="let channel of channels" class="nav-item">
-                    <a (click)="selectChannel(channel)" class="nav-link">#{{channel.name}}<span class="badge badge-info">{{channel.count}}</span></a>
+                    <a routerLinkActive="active" [routerLink]="['/links']" [queryParams]="{ channel: channel.name }" class="nav-link">#{{channel.name}}<span class="badge badge-info">{{channel.count}}</span></a>
                 </li>
             </ul>
         </nav>
