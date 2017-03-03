@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'ng2-webstorage';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private storage: LocalStorageService
+  ) { 
+    const authDetails = this.storage.retrieve('rinku');
 
-  ngOnInit() {
+    if(authDetails) {
+      if(authDetails.ok) {
+        this.router.navigateByUrl('/links');
+      }
+    }
   }
 
+  ngOnInit() {}
 }
