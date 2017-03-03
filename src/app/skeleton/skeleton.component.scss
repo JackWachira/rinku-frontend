@@ -6,6 +6,7 @@ $color_celeste_approx: #ccc;
 $color_emerald_approx: #66cc75;
 $color_sky_blue_50_approx: rgba(109,207,246,.5);
 $color_mountain_mist_approx: #999;
+$green: #92BA3F;
 
 //urls
 $url_0: url(http://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png);
@@ -67,4 +68,7 @@ input::-webkit-input-placeholder {
 
 .container-fluid {
 	height: 580px;
+}
+.badge-info{
+	background: $green;
 }

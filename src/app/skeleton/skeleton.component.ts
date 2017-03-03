@@ -52,7 +52,10 @@ export class Skeleton implements OnInit {
       links => {
         self.channels = alasql('SELECT DISTINCT channel_name AS [name], channel_id AS [id] \
                               , COUNT(*) AS [count] FROM ? GROUP BY channel_name', [links]);
-        self.selectChannel(self.channels[0]);
+        setTimeout(function (): void {
+          console.log('timeout');
+          self.router.navigate(['/links'], { queryParams: { channel: self.channels[0].name } });
+        }, 500);
       },
       error => console.log(error)
     )

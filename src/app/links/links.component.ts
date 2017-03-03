@@ -30,9 +30,13 @@ export class LinksComponent implements OnInit {
     private route: ActivatedRoute,
     private linksService: LinksService,
     private storage: LocalStorageService,
-    private skeletonService: SkeletonService
+    private skeletonService: SkeletonService,
   ) {
-    this.skeletonService.getChannelEmitter().subscribe(item => this.onChannelChanged(item));
+    this.route
+      .queryParams
+      .subscribe(params => {
+        this.channelName = params['channel'];
+      });
   }
 
   ngOnInit() {
