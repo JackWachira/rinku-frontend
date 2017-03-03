@@ -30,12 +30,9 @@ export class Skeleton implements OnInit {
   public status: { isopen: boolean } = { isopen: false };
 
   public toggled(open: boolean): void {
-    console.log('Dropdown is now: ', open);
   }
 
   selectChannel(channel: ChannelItem) {
-    console.log('channel is: ', channel);
-
     this.skeletonService.changeChannel(channel);
   }
 
@@ -53,7 +50,6 @@ export class Skeleton implements OnInit {
     let self = this;
     this.linksService.getLinks(this.teamId).subscribe(
       links => {
-        self.linksCount = links.length;
         self.channels = alasql('SELECT DISTINCT channel_name AS [name], channel_id AS [id] \
                               , COUNT(*) AS [count] FROM ? GROUP BY channel_name', [links]);
         self.selectChannel(self.channels[0]);
@@ -68,6 +64,8 @@ export class Skeleton implements OnInit {
       this.userAvatar = auth.user.image_48;
       this.userName = auth.user.name;
       this.teamId = auth.team.id;
+      this.getChannels();
+
     } else {
       this.storage.observe('rinku').subscribe(
         authObject => {
@@ -75,11 +73,11 @@ export class Skeleton implements OnInit {
             this.userAvatar = authObject.user.image_48;
             this.userName = authObject.user.name;
             this.teamId = authObject.team.id;
+            this.getChannels();
           }
         },
         error => console.log(error)
       )
     }
-    this.getChannels();
   }
 }
