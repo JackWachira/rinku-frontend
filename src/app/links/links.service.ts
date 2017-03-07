@@ -3,6 +3,7 @@ import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 
 import { Token } from './token';
 import { Link } from './link';
+import { Channel } from './channel';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -50,6 +51,13 @@ export class LinksService {
   getLinks(teamId): Observable<Link[]> {
     return this.http
       .get('http://localhost:3000/links?teamId=' + teamId)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getChannels(teamId): Observable<Channel[]> {
+    return this.http
+      .get('http://localhost:3000/channels?teamId=' + teamId)
       .map(this.extractData)
       .catch(this.handleError);
   }

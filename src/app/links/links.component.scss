@@ -25,7 +25,6 @@ $keyBreakpoint: 37.5em;
 }
 
 .card {
-
   $brandGreen: #92BA3F;
   $brandBlue: #2A91E7;
   $brandGrey: #eee;
@@ -184,4 +183,12 @@ $keyBreakpoint: 37.5em;
     }
   }
 
+  .description {
+    height: 135px;
+    background-size: contaian auto;
+  }
+
+  .pager {
+    position: fixed;
+  }
 }

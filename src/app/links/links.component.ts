@@ -32,7 +32,11 @@ export class LinksComponent implements OnInit {
     private storage: LocalStorageService,
     private skeletonService: SkeletonService
   ) {
-    this.skeletonService.getChannelEmitter().subscribe(item => this.onChannelChanged(item));
+    this.route
+      .queryParams
+      .subscribe(params => {
+        this.channelName = params['channel'];
+      });  
   }
 
   ngOnInit() {
@@ -49,8 +53,6 @@ export class LinksComponent implements OnInit {
       },
       error => console.log(error)
     );
-
-
 
     const getAccessToken = function getAccessToken() {
       self.linksService.getAccessToken(self.requestObject).subscribe(
@@ -72,7 +74,6 @@ export class LinksComponent implements OnInit {
     const getLinks = function () {
       self.stuff = self.linksService.getLinks(self.teamId);
       self.stuff.subscribe(val => {
-        console.log('valis: ', val);
         val.map(link => {
           link.urls.map(url => {
             self.articles.push({
@@ -107,9 +108,5 @@ export class LinksComponent implements OnInit {
         self.error = 'You need to sign in to see anything on this page';
       }
     }
-  }
-  onChannelChanged(item: ChannelItem) {
-    console.log('channel changed: ', item);
-    this.channelName = item.name;
   }
 }
