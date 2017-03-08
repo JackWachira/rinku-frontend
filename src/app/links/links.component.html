@@ -1,5 +1,5 @@
 <section class="cards">
-  <div class="card with-badge" *ngFor="let article of articles | filterChannels: channelName | paginate: {itemsPerPage: 6, currentPage: p }">
+  <div class="card with-badge" *ngFor="let article of articles | paginate: { id: 'server', itemsPerPage: 6, currentPage: p, totalItems: total }">
     <div class="inner-wrap">
       <h3>
         <a href="#">{{article.url.title | shorten: 60: '...'}}</a>
@@ -26,5 +26,7 @@
       </ul>
     </div>
   </div>
-  <div class="card pager pagination pagination-lg" style="width: 100%"><pagination-controls (pageChange)="p = $event"></pagination-controls></div>
 </section>
+<div class="card pager pagination pagination-lg" style="width: 100%" *ngIf="articles.length">
+  <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+</div>

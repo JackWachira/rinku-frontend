@@ -17,14 +17,12 @@ import { ChannelItem } from '../shared/channel-item';
 export class LinksComponent implements OnInit {
   @Input() articles = new Array();
   @Input() channelName = '';
-  requestObject: any;
-  links: any;
   teamId: string;
   teamName: string;
-  authObject: any;
   error: any;
-  async = require('async');
   stuff: Observable<Link[]>;
+  p: number = 1;
+  total: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,81 +30,61 @@ export class LinksComponent implements OnInit {
     private storage: LocalStorageService,
     private skeletonService: SkeletonService
   ) {
-    this.route
-      .queryParams
-      .subscribe(params => {
-        this.channelName = params['channel'];
-      });  
+    this.skeletonService.getChannelEmitter().subscribe(item => this.onChannelChanged(item));		
+  }
+
+  getPage(page: number) {
+    console.log(`I AM GETTING PAGE ${page} FOR CHANNEL ${this.channelName}`)
+    this.articles = [];
+    this.stuff = this.linksService.getLinksByChannel(this.teamId, this.channelName, page, 6);
+    this.stuff.subscribe(val => {
+      this.p = val.page;
+      this.total = val.total;
+
+      val.docs.map(link => {
+        link.urls.map(url => {
+          this.articles.push({
+            'channel_id': link.channel_id,
+            'channel_name': link.channel_name,
+            'team_id': link.team,
+            'text': link.text,
+            'timestamp': link.timestamp,
+            'url': url,
+          });
+        });
+      });
+    });
+  }
+
+  onChannelChanged(item: ChannelItem) {
+    console.log('CHANNEL IMECHANGIWA');
+    this.total = item.count;
+    this.channelName = item.name;
+    this.getPage(1);
   }
 
   ngOnInit() {
     let self = this;
+    let authObject = this.storage.retrieve('rinku');
 
-    self.authObject = self.storage.retrieve('rinku');
-    self.route.queryParams.subscribe(
-      val => {
-        self.requestObject = {
-          client_id: '126735187141.129500575763',
-          client_secret: '4c0774074e25b401c9cfa98faa735b84',
-          code: val['code'],
-        };
-      },
-      error => console.log(error)
-    );
-
-    const getAccessToken = function getAccessToken() {
-      self.linksService.getAccessToken(self.requestObject).subscribe(
-        token => {
-          self.storage.store('rinku', token);
-
-          if (token.ok) {
-            self.teamId = token.team.id;
-            self.teamName = token.team.name;
-            getLinks();
-          } else {
-            self.error = token.error;
-          }
-        },
-        error => console.log(error)
-      );
-    };
-
-    const getLinks = function () {
-      self.stuff = self.linksService.getLinks(self.teamId);
-      self.stuff.subscribe(val => {
-        val.map(link => {
-          link.urls.map(url => {
-            self.articles.push({
-              'channel_id': link.channel_id,
-              'channel_name': link.channel_name,
-              'team_id': link.team,
-              'text': link.text,
-              'timestamp': link.timestamp,
-              'url': url,
-            });
-          });
-        });
-      });
-    };
-
-    if (self.authObject) {
-      if (self.authObject.ok) {
-        self.teamId = self.storage.retrieve('rinku').team.id;
-        self.teamName = self.storage.retrieve('rinku').team.name;
-        getLinks();
+    if(authObject) {
+      if(authObject.ok) {
+        this.teamId = authObject.team.id;
+        this.teamName = authObject.team.name;
       } else {
-        if (self.requestObject.code) {
-          getAccessToken();
-        } else {
-          self.error = self.authObject.error;
-        }
+        this.error = authObject.error;
       }
     } else {
-      if (self.requestObject.code) {
-        getAccessToken();
-      } else {
-        self.error = 'You need to sign in to see anything on this page';
-      }
+      this.storage.observe('rinku').subscribe(
+        rinku => {
+          if(rinku.ok) {
+            this.teamId = rinku.team.id;
+            this.teamName = rinku.team.name;
+          } else {
+            this.error = rinku.error;
+          }
+        }
+      );
     }
   }
 }

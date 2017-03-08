@@ -17,7 +17,7 @@ export class LinksService {
   ) { }
 
   private extractData(res: Response) {
-    let body = res.json();
+    let body = res.json();    
     return body || {};
   }
 
@@ -48,9 +48,16 @@ export class LinksService {
       .catch(this.handleError);
   }
 
-  getLinks(teamId): Observable<Link[]> {
+  getLinks(teamId, page, limit): Observable<Link[]> {
     return this.http
-      .get('http://localhost:3000/links?teamId=' + teamId)
+      .get('http://localhost:3000/links?teamId=' + teamId + '&page=' + page + '&limit=' + limit)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getLinksByChannel(teamId, channel, page, limit): Observable<Link[]> {
+    return this.http
+      .get('http://localhost:3000/links?teamId=' + teamId + '&channel=' + channel + '&page=' + page + '&limit=' + limit)
       .map(this.extractData)
       .catch(this.handleError);
   }

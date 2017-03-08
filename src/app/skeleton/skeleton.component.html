@@ -26,7 +26,6 @@
             </div>
         </li>
     </ul>
-
 </header>
 
 <div class="app-body">
@@ -37,7 +36,7 @@
                     SUBSCRIBED CHANNELS ({{channels?.length}})
                 </li>
                 <li *ngFor="let channel of channels" class="nav-item">
-                    <a routerLinkActive="active" [routerLink]="['/links']" [queryParams]="{ channel: channel.name }" class="nav-link">#{{channel.name}}<span class="badge badge-info">{{channel.count}}</span></a>
+                    <a routerLinkActive="active" [routerLink]="['/links']" [queryParams]="{ channel: channel.name }" class="nav-link" (click)="selectChannel(channel)">#{{channel.name}}<span class="badge badge-info">{{channel.count}}</span></a>
                 </li>
             </ul>
         </nav>
