@@ -8,6 +8,7 @@ import { Link } from './link';
 import { SkeletonService } from '../shared/skeleton.service';
 import { ChannelItem } from '../shared/channel-item';
 
+declare let alasql;
 @Component({
   selector: 'app-links',
   templateUrl: './links.component.html',
@@ -37,6 +38,7 @@ export class LinksComponent implements OnInit {
       .subscribe(params => {
         this.channelName = params['channel'];
       });
+    this.skeletonService.getSearchEmitter().subscribe(query => this.onQueryLinks(query));
   }
 
   ngOnInit() {
@@ -78,14 +80,17 @@ export class LinksComponent implements OnInit {
       self.stuff.subscribe(val => {
         val.map(link => {
           link.urls.map(url => {
-            self.articles.push({
-              'channel_id': link.channel_id,
-              'channel_name': link.channel_name,
-              'team_id': link.team,
-              'text': link.text,
-              'timestamp': link.timestamp,
-              'url': url,
-            });
+            if (url.title) {
+              self.articles.push({
+                'channel_id': link.channel_id,
+                'channel_name': link.channel_name,
+                'team_id': link.team,
+                'text': link.text,
+                'timestamp': link.timestamp,
+                'urls': url,
+              });
+            }
+
           });
         });
       });
@@ -113,5 +118,8 @@ export class LinksComponent implements OnInit {
   }
   onChannelChanged(item: ChannelItem) {
     this.channelName = item.name;
+  }
+  onQueryLinks(query) {
+    console.log('typed: ', query);
   }
 }

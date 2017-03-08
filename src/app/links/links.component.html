@@ -3,10 +3,10 @@
     <div class="card with-badge" *ngFor="let article of articles | filterChannels: channelName">
         <div class="inner-wrap">
             <h3>
-                <a href="#">{{article.url.title | shorten: 60: '...'}}</a>
+                <a href="#">{{article.urls.title | shorten: 60: '...'}}</a>
             </h3>
-            <div class="description" [ngStyle]="{ 'background-image': 'url(' + article.url.image + ')'}">
-                <p *ngIf="!article.url.image">{{article.url.description}}</p>
+            <div class="description" [ngStyle]="{ 'background-image': 'url(' + article.urls.image + ')'}">
+                <p *ngIf="!article.urls.image">{{article.urls.description}}</p>
             </div>
         </div>
         <div class="likes-bar">

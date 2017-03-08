@@ -1,4 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  trigger,
+  state,
+  style,
+  transition,
+  animate
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { LinksService } from '../links/links.service';
 import { LocalStorageService } from 'ng2-webstorage';
@@ -10,7 +19,24 @@ declare let alasql;
   selector: 'app-dashboard',
   templateUrl: './skeleton.component.html',
   styleUrls: ['./skeleton.component.scss'],
-  providers: [LinksService, SkeletonService]
+  providers: [LinksService, SkeletonService],
+  animations: [
+    trigger('heroState', [
+      state('inactive', style({
+        backgroundColor: '#eee',
+        width: '150px',
+        cursor: 'pointer',
+      })),
+      state('active', style({
+        backgroundColor: '#fff',
+        width: '600px',
+        cursor: 'default',
+        borderBottom: '1px solid #BBB',
+      })),
+      transition('inactive => active', animate('100ms ease-in')),
+      transition('active => inactive', animate('100ms ease-out'))
+    ])
+  ]
 })
 
 export class Skeleton implements OnInit {
@@ -18,6 +44,8 @@ export class Skeleton implements OnInit {
   userName: string;
   teamId: string;
   channels: Array<String>;
+  query = '';
+  @Input() state = 'inactive';
 
   constructor(
     private router: Router,
@@ -25,6 +53,18 @@ export class Skeleton implements OnInit {
     private storage: LocalStorageService,
     private skeletonService: SkeletonService
   ) { }
+
+  activateSearch() {
+    this.state = 'active';
+  }
+  filterLinks(event) {
+    this.query = (<HTMLInputElement>event.target).value;
+    this.skeletonService.searchLinks(this.query);
+  }
+
+  deactivateSearch() {
+    this.state = 'inactive';
+  }
 
   public disabled: boolean = false;
   public status: { isopen: boolean } = { isopen: false };
