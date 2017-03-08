@@ -1,4 +1,5 @@
-<section class="cards">
+<div class="loader" *ngIf="!articles.length">Loading...</div>
+<section class="cards" *ngIf="articles.length">
   <div class="card with-badge" *ngFor="let article of articles | paginate: { id: 'server', itemsPerPage: 6, currentPage: p, totalItems: total }">
     <div class="inner-wrap">
       <h3>
@@ -26,7 +27,8 @@
       </ul>
     </div>
   </div>
+  <div class="card" style="width: 100%" *ngIf="articles.length">
+    <p><pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls></p>
+  </div>
 </section>
-<div class="card pager pagination pagination-lg" style="width: 100%" *ngIf="articles.length">
-  <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
-</div>
+

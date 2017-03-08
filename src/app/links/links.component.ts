@@ -34,7 +34,6 @@ export class LinksComponent implements OnInit {
   }
 
   getPage(page: number) {
-    console.log(`I AM GETTING PAGE ${page} FOR CHANNEL ${this.channelName}`)
     this.articles = [];
     this.stuff = this.linksService.getLinksByChannel(this.teamId, this.channelName, page, 6);
     this.stuff.subscribe(val => {
@@ -57,7 +56,6 @@ export class LinksComponent implements OnInit {
   }
 
   onChannelChanged(item: ChannelItem) {
-    console.log('CHANNEL IMECHANGIWA');
     this.total = item.count;
     this.channelName = item.name;
     this.getPage(1);
