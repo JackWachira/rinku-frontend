@@ -8,6 +8,7 @@ import { Link } from './link';
 import { SkeletonService } from '../shared/skeleton.service';
 import { ChannelItem } from '../shared/channel-item';
 
+declare let alasql;
 @Component({
   selector: 'app-links',
   templateUrl: './links.component.html',
@@ -49,6 +50,7 @@ export class LinksComponent implements OnInit {
             'text': link.text,
             'timestamp': link.timestamp,
             'url': url,
+
           });
         });
       });
