@@ -1,30 +1,34 @@
-<section class="cards">
-
-    <div class="card with-badge" *ngFor="let article of articles | filterChannels: channelName">
-        <div class="inner-wrap">
-            <h3>
-                <a href="#">{{article.urls.title | shorten: 60: '...'}}</a>
-            </h3>
-            <div class="description" [ngStyle]="{ 'background-image': 'url(' + article.urls.image + ')'}">
-                <p *ngIf="!article.urls.image">{{article.urls.description}}</p>
-            </div>
-        </div>
-        <div class="likes-bar">
-            <p>
-                <a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" alt="Sandra">Sandra</a>
-        </div>
-        <div class="action-bar">
-            <ul>
-                <li class="comments">
-                    <a href="#"><i class="fa fa-comments-o"></i> <span class="comments-link">24 Comments</span></a>
-                </li>
-                <li class="share">
-                    <a href="#"><i class="fa fa-slideshare"></i><span>share</span></a>
-                </li>
-                <li class="like">
-                    <a href="#"><i class="fa fa-heart-o"></i><span>like</span></a>
-                </li>
-            </ul>
-        </div>
+<div class="loader" *ngIf="!articles.length">Loading...</div>
+<section class="cards" *ngIf="articles.length">
+  <div class="card with-badge" *ngFor="let article of articles | paginate: { id: 'server', itemsPerPage: 6, currentPage: p, totalItems: total }">
+    <div class="inner-wrap">
+      <h3>
+        <a href="#">{{article.url.title | shorten: 60: '...'}}</a>
+      </h3>
+      <div class="description" [ngStyle]="{ 'background-image': 'url(' + article.url.image + ')'}">
+        <p *ngIf="!article.url.image">{{article.url.description}}</p>
+      </div>
     </div>
+    <div class="likes-bar">
+      <p>
+        <a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" alt="Sandra">Sandra</a>
+    </div>
+    <div class="action-bar">
+      <ul>
+        <li class="comments">
+          <a href="#"><i class="fa fa-comments-o"></i> <span class="comments-link">24 Comments</span></a>
+        </li>
+        <li class="share">
+          <a href="#"><i class="fa fa-slideshare"></i><span>share</span></a>
+        </li>
+        <li class="like">
+          <a href="#"><i class="fa fa-heart-o"></i><span>like</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="width: 100%" *ngIf="articles.length">
+    <p><pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls></p>
+  </div>
 </section>
+

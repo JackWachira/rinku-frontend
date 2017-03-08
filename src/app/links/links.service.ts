@@ -3,6 +3,7 @@ import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 
 import { Token } from './token';
 import { Link } from './link';
+import { Channel } from './channel';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -16,7 +17,7 @@ export class LinksService {
   ) { }
 
   private extractData(res: Response) {
-    let body = res.json();
+    let body = res.json();    
     return body || {};
   }
 
@@ -47,9 +48,23 @@ export class LinksService {
       .catch(this.handleError);
   }
 
-  getLinks(teamId): Observable<Link[]> {
+  getLinks(teamId, page, limit): Observable<Link[]> {
     return this.http
-      .get('http://localhost:3000/links?teamId=' + teamId)
+      .get('http://localhost:3000/links?teamId=' + teamId + '&page=' + page + '&limit=' + limit)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getLinksByChannel(teamId, channel, page, limit): Observable<Link[]> {
+    return this.http
+      .get('http://localhost:3000/links?teamId=' + teamId + '&channel=' + channel + '&page=' + page + '&limit=' + limit)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getChannels(teamId): Observable<Channel[]> {
+    return this.http
+      .get('http://localhost:3000/channels?teamId=' + teamId)
       .map(this.extractData)
       .catch(this.handleError);
   }

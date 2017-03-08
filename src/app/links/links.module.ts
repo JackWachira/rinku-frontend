@@ -4,22 +4,22 @@ import { LinksComponent } from './links.component';
 import { LinksRoutingModule } from './links-routing.module';
 import { LinksService } from './links.service';
 import { ExtractLink } from './link-extract.pipe';
-import { FilterChannels } from './filterchannel.pipe';
 import {NgPipesModule} from 'ngx-pipes';
+import {Ng2PaginationModule} from 'ng2-pagination'; 
 
 import { MaterialModule } from '@angular/material';
-
 
 @NgModule({
   imports: [
     LinksRoutingModule,
     CommonModule,
     MaterialModule,
-    NgPipesModule
+    NgPipesModule,
+    Ng2PaginationModule
   ],
   providers: [
     LinksService
   ],
-  declarations: [ExtractLink, FilterChannels, LinksComponent, ]
+  declarations: [ExtractLink, LinksComponent, ]
 })
 export class LinksModule { }

@@ -8,13 +8,13 @@ import {
   transition,
   animate
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { LinksService } from '../links/links.service';
 import { LocalStorageService } from 'ng2-webstorage';
 import { SkeletonService } from '../shared/skeleton.service';
 import { ChannelItem } from '../shared/channel-item';
 
-declare let alasql;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './skeleton.component.html',
@@ -43,11 +43,14 @@ export class Skeleton implements OnInit {
   userAvatar: string;
   userName: string;
   teamId: string;
+  authObject: any;
+  requestObject: any;
   channels: Array<String>;
   query = '';
   @Input() state = 'inactive';
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private linksService: LinksService,
     private storage: LocalStorageService,
@@ -86,15 +89,16 @@ export class Skeleton implements OnInit {
     this.storage.clear('rinku');
     this.router.navigateByUrl('/');
   }
+
   getChannels = function () {
     let self = this;
-    this.linksService.getLinks(this.teamId).subscribe(
-      links => {
-        self.channels = alasql('SELECT DISTINCT channel_name AS [name], channel_id AS [id] \
-                              , COUNT(*) AS [count] FROM ? GROUP BY channel_name', [links]);
+    self.linksService.getChannels(self.teamId).subscribe(
+      channels => {
+        self.channels = channels;
+
         setTimeout(function (): void {
-          console.log('timeout');
           self.router.navigate(['/links'], { queryParams: { channel: self.channels[0].name } });
+          self.selectChannel(channels[0]);
         }, 500);
       },
       error => console.log(error)
@@ -102,25 +106,57 @@ export class Skeleton implements OnInit {
   }
 
   ngOnInit(): void {
-    let auth = this.storage.retrieve('rinku');
-    if (auth && auth.ok) {
-      this.userAvatar = auth.user.image_48;
-      this.userName = auth.user.name;
-      this.teamId = auth.team.id;
-      this.getChannels();
+    let self = this;
 
-    } else {
-      this.storage.observe('rinku').subscribe(
-        authObject => {
-          if (authObject.ok) {
-            this.userAvatar = authObject.user.image_48;
-            this.userName = authObject.user.name;
-            this.teamId = authObject.team.id;
-            this.getChannels();
+    self.authObject = self.storage.retrieve('rinku');
+    self.route.queryParams.subscribe(
+      val => {
+        self.requestObject = {
+          client_id: '126735187141.129500575763',
+          client_secret: '4c0774074e25b401c9cfa98faa735b84',
+          code: val['code'],
+        };
+      }, 
+      error => console.log(error)
+    );
+
+     const getAccessToken = function getAccessToken() {
+      self.linksService.getAccessToken(self.requestObject).subscribe(
+        token => {
+          self.storage.store('rinku', token);
+
+          if (token.ok) {
+            self.userAvatar = token.user.image_48;
+            self.userName = token.user.name;
+            self.teamId = token.team.id;
+            self.getChannels();
+          } else {
+            console.log(token.error);
           }
         },
         error => console.log(error)
-      )
+      );
+    }
+
+    if (self.authObject) {    
+      if(self.authObject.ok) {
+        self.userAvatar = self.authObject.user.image_48;
+        self.userName = self.authObject.user.name;
+        self.teamId = self.authObject.team.id;
+        self.getChannels();
+      } else {
+        if (self.requestObject.code) {
+          getAccessToken();
+        } else {
+          console.log(self.authObject.error);
+        }
+      }
+    } else {
+       if (self.requestObject.code) {
+        getAccessToken();
+      } else {
+        console.log('You need to sign in to see anything on this page.');
+      }
     }
   }
 }
