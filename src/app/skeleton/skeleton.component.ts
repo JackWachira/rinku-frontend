@@ -32,12 +32,9 @@ export class Skeleton implements OnInit {
   public status: { isopen: boolean } = { isopen: false };
 
   public toggled(open: boolean): void {
-    console.log('Dropdown is now: ', open);
   }
 
   selectChannel(channel: ChannelItem) {
-    console.log('channel is: ', channel);
-
     this.skeletonService.changeChannel(channel);
   }
 
